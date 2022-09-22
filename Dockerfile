@@ -5,7 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG APT_PKGS="\
     byobu \
     emacs-goodies-el \
-    emacs-nox"
+    emacs-nox \
+    gosu"
 
 USER root
 
@@ -13,4 +14,6 @@ RUN echo "deb http://deb.debian.org/debian bullseye-backports main contrib non-f
     && apt-get update \
     && apt-get install -t bullseye-backports --no-install-recommends -y -qq $APT_PKGS
 
-USER $USERNAME
+ADD ./entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
